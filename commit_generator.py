@@ -140,15 +140,18 @@ Format: type(scope): description
 Keep descriptions under 50 characters.
 Only vary the descriptions, NEVER the commit type.
 
-WRONG example (mixed types):
-feat: add new feature
-fix: improve performance  
-docs: update readme
+RESPOND WITH ONLY COMMIT MESSAGES - NO EXPLANATIONS OR EXTRA TEXT!
 
-CORRECT example (consistent type):
+WRONG format:
+The correct type is docs because...
+docs: update readme
+fix: improve performance
+
+CORRECT format:
 docs: update README with version info
 docs: add version number to documentation  
-docs: enhance README header section"""
+docs: enhance README header section
+docs: improve README content structure"""
 
         try:
             print("🤖 Analyzing changes and generating focused suggestions...")

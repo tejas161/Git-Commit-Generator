@@ -1,6 +1,7 @@
 # 🚀 AI-Powered Git Commit Generator v2.0
 
 <!-- Updated to v2.0 with improved focused prompting -->
+<!-- Now features intelligent commit message generation -->
 A modular, well-structured Python application that uses Ollama's llama3.2 model to generate conventional git commit messages based on your staged changes.
 
 ## 📁 Project Structure
