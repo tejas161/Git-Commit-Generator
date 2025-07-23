@@ -105,25 +105,22 @@ class LLMClient:
             return None
     
     def _create_prompt(self, git_summary: str) -> str:
-        """Create optimized prompt for commit message generation."""
-        prompt = f"""Based on the following git changes, generate exactly {self.config.max_suggestions} different conventional commit messages.
+        """Create focused prompt for commit message generation."""
+        prompt = f"""Look at these git changes and describe what was actually done. Generate 3-5 commit messages that accurately describe the same changes.
 
 {git_summary}
 
-Requirements:
-1. Use conventional commit format: type(scope): description
-2. Valid types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
-3. Keep descriptions under 50 characters  
-4. Make each suggestion unique and meaningful
-5. Respond with ONLY the commit messages, one per line
-6. No numbering, bullets, or extra text
+Instructions:
+1. Identify the MAIN thing that was changed or accomplished
+2. Use conventional commit format: type(scope): description  
+3. All suggestions should describe the SAME changes - don't create artificial variety
+4. Choose the commit type that best matches what actually happened: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+5. If it's all documentation changes, make all suggestions about documentation
+6. If it's all bug fixes, make all suggestions about bug fixes
+7. Keep descriptions under 50 characters and specific to what changed
+8. Respond ONLY with the commit messages, one per line, no extra text
 
-Examples:
-feat(auth): add user login functionality
-fix(api): resolve timeout issue in requests
-docs: update installation instructions
-refactor(utils): simplify error handling
-test: add unit tests for user service"""
+Focus on accuracy over variety. Multiple similar suggestions are perfectly fine and preferred if they accurately describe the same changes."""
 
         return prompt
     

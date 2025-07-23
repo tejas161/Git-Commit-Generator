@@ -122,21 +122,25 @@ class SimpleCommitGenerator:
             return False
     
     def get_commit_suggestions(self, git_changes):
-        """Get 5 commit message suggestions from LLM."""
-        prompt = f"""Based on the following git changes, generate exactly 5 valid and senseable conventional commit messages.
+        """Get focused commit message suggestions from LLM."""
+        prompt = f"""Look at these git changes and describe what was actually done. Generate 3-5 commit messages that accurately describe the same changes.
 
 {git_changes}
 
-Rules:
-1. Use conventional commit format: type(scope)?: description
-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
-3. Keep descriptions under 50 characters
-4. Make each suggestion meaningful and it can be unique/not unique based on the context of the changes
-5. Respond ONLY with 5 commit messages, one per line, no extra text
-"""
+Instructions:
+1. Identify the MAIN thing that was changed or accomplished
+2. Use conventional commit format: type(scope): description  
+3. All suggestions should describe the SAME changes - don't create artificial variety
+4. Choose the commit type that best matches what actually happened: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+5. If it's all documentation changes, make all suggestions about documentation
+6. If it's all bug fixes, make all suggestions about bug fixes
+7. Keep descriptions under 50 characters and specific to what changed
+8. Respond ONLY with the commit messages, one per line, no extra text
+
+Focus on accuracy over variety. Multiple similar suggestions are perfectly fine and preferred if they accurately describe the same changes."""
 
         try:
-            print("🤖 Asking LLM for commit suggestions...")
+            print("🤖 Analyzing changes and generating focused suggestions...")
             
             payload = {
                 "model": self.llm_model,
@@ -171,7 +175,8 @@ Rules:
                 # Remove any numbering or bullets
                 suggestion = suggestion.strip()
                 if suggestion and not suggestion.startswith(('1.', '2.', '3.', '4.', '5.', '-', '*')):
-                    clean_suggestions.append(suggestion)
+                    if ':' in suggestion:  # Only keep valid commit messages
+                        clean_suggestions.append(suggestion)
                 elif ':' in suggestion:
                     # Remove numbering if present
                     if suggestion[0].isdigit():
@@ -194,7 +199,8 @@ Rules:
             return None
             
         print("\n" + "="*60)
-        print("🚀 Generated Commit Message Suggestions:")
+        print("💡 AI-Generated Commit Suggestions:")
+        print("(Focused on what was actually changed)")
         print("="*60)
         
         for i, suggestion in enumerate(suggestions, 1):
