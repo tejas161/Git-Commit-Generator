@@ -17,7 +17,7 @@ class UserInterface:
     def __init__(self, config=None):
         """Initialize UI with configuration."""
         self.config = config
-        self.show_debug = config.show_confidence if config else False
+        self.debug_enabled = config.show_confidence if config else False
     
     def show_header(self):
         """Display application header."""
@@ -47,7 +47,7 @@ class UserInterface:
     
     def show_debug(self, message: str):
         """Display debug message if enabled."""
-        if self.show_debug:
+        if self.debug_enabled:
             print(f"🔍 DEBUG: {message}")
     
     def show_git_changes(self, changes_data: Dict):
@@ -128,7 +128,7 @@ class UserInterface:
         """Display commit creation result."""
         self.show_success("Commit created successfully!")
         print(f"📋 {commit_info['hash']} - {commit_info['message']}")
-        if self.show_debug:
+        if self.debug_enabled:
             print(f"🔍 Author: {commit_info['author']}")
             print(f"🔍 Timestamp: {commit_info['timestamp']}")
     

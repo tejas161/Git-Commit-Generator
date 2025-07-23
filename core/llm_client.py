@@ -165,9 +165,18 @@ docs: improve README content structure"""
             elif line.startswith(('- ', '* ', '• ')):
                 cleaned_line = line[2:]
             
-            # Only keep lines that look like commit messages (contain ':')
-            if ':' in cleaned_line and len(cleaned_line) > 10:
-                cleaned_suggestions.append(cleaned_line.strip())
+            # Skip explanatory text (lines without ':' or too generic)
+            if ':' not in cleaned_line:
+                continue
+            if len(cleaned_line) < 10:
+                continue
+            if 'correct format' in cleaned_line.lower():
+                continue
+            if 'commit message' in cleaned_line.lower() and 'format' in cleaned_line.lower():
+                continue
+                
+            # Only keep lines that look like valid commit messages
+            cleaned_suggestions.append(cleaned_line.strip())
         
         return cleaned_suggestions
     
