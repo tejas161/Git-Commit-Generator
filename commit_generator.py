@@ -14,7 +14,7 @@ try:
     import requests
     from git import Repo, InvalidGitRepositoryError
 except ImportError as e:
-    print(f"❌ Missing dependency: {e}")
+    print(f"ERROR: Missing dependency: {e}")
     print("Please install requirements: pip install -r requirements.txt")
     sys.exit(1)
 
@@ -30,7 +30,7 @@ class SimpleCommitGenerator:
             self.repo = Repo(".")
             return True
         except InvalidGitRepositoryError:
-            print("❌ Not a git repository!")
+            print("ERROR: Not a git repository!")
             print("Please run this script from inside a git repository.")
             return False
     
@@ -47,7 +47,7 @@ class SimpleCommitGenerator:
                 staged_changes = self.repo.index.diff(None, cached=True)
             
             if not staged_changes:
-                print("❌ No staged changes found!")
+                print("ERROR: No staged changes found!")
                 print("Please stage some changes first: git add <files>")
                 return None
             
@@ -90,7 +90,7 @@ class SimpleCommitGenerator:
             return summary_text
             
         except Exception as e:
-            print(f"❌ Error getting git changes: {e}")
+            print(f"ERROR: Error getting git changes: {e}")
             return None
     
     def check_ollama_connection(self):
@@ -106,7 +106,7 @@ class SimpleCommitGenerator:
             model_names = [model['name'] for model in models]
             
             if self.llm_model not in model_names:
-                print(f"❌ Model {self.llm_model} not found!")
+                print(f"ERROR: Model {self.llm_model} not found!")
                 print("Available models:", model_names)
                 print(f"Please install the model: ollama pull {self.llm_model}")
                 return False
@@ -114,11 +114,11 @@ class SimpleCommitGenerator:
             return True
             
         except requests.exceptions.ConnectionError:
-            print("❌ Cannot connect to Ollama!")
+            print("ERROR: Cannot connect to Ollama!")
             print("Please make sure Ollama is running: ollama serve")
             return False
         except Exception as e:
-            print(f"❌ Error checking Ollama: {e}")
+            print(f"ERROR: Error checking Ollama: {e}")
             return False
     
     def get_commit_suggestions(self, git_changes):
@@ -154,7 +154,7 @@ docs: enhance README header section
 docs: improve README content structure"""
 
         try:
-            print("🤖 Analyzing changes and generating focused suggestions...")
+            print("Analyzing changes and generating focused suggestions...")
             
             payload = {
                 "model": self.llm_model,
@@ -174,7 +174,7 @@ docs: improve README content structure"""
             )
             
             if response.status_code != 200:
-                print(f"❌ LLM request failed: {response.status_code}")
+                print(f"ERROR: LLM request failed: {response.status_code}")
                 return None
             
             result = response.json()
@@ -200,20 +200,20 @@ docs: improve README content structure"""
             return clean_suggestions[:5]  # Ensure we only return max 5
             
         except requests.exceptions.Timeout:
-            print("❌ LLM request timed out. Please try again.")
+            print("ERROR: LLM request timed out. Please try again.")
             return None
         except Exception as e:
-            print(f"❌ Error getting LLM suggestions: {e}")
+            print(f"ERROR: Error getting LLM suggestions: {e}")
             return None
     
     def display_suggestions(self, suggestions):
         """Display commit suggestions and get user choice."""
         if not suggestions:
-            print("❌ No valid suggestions received from LLM")
+            print("ERROR: No valid suggestions received from LLM")
             return None
             
         print("\n" + "="*60)
-        print("💡 AI-Generated Commit Suggestions:")
+        print("AI-Generated Commit Suggestions:")
         print("(Focused on what was actually changed)")
         print("="*60)
         
@@ -228,68 +228,68 @@ docs: improve README content structure"""
                 choice = input(f"\nChoose a commit message (0-{len(suggestions)}): ").strip()
                 
                 if choice == '0':
-                    print("🚫 Commit cancelled")
+                    print("Commit cancelled")
                     return None
                 
                 choice_num = int(choice)
                 if 1 <= choice_num <= len(suggestions):
                     return suggestions[choice_num - 1]
                 else:
-                    print(f"❌ Please enter a number between 0 and {len(suggestions)}")
+                    print(f"ERROR: Please enter a number between 0 and {len(suggestions)}")
                     
             except ValueError:
-                print("❌ Please enter a valid number")
+                print("ERROR: Please enter a valid number")
             except KeyboardInterrupt:
-                print("\n🚫 Cancelled")
+                print("\nCancelled")
                 return None
     
     def create_commit(self, message):
         """Create git commit with the chosen message."""
         try:
-            print(f"\n📝 Creating commit with message: '{message}'")
+            print(f"\nCreating commit with message: '{message}'")
             
             # Confirm before committing
             confirm = input("Proceed with commit? (y/N): ").strip().lower()
             if confirm not in ['y', 'yes']:
-                print("🚫 Commit cancelled")
+                print("Commit cancelled")
                 return False
             
             # Create the commit
             self.repo.index.commit(message)
-            print("✅ Commit created successfully!")
+            print("Commit created successfully!")
             
             # Show the commit
             latest_commit = self.repo.head.commit
-            print(f"📋 Commit: {latest_commit.hexsha[:8]} - {message}")
+            print(f"Commit: {latest_commit.hexsha[:8]} - {message}")
             
             return True
             
         except Exception as e:
-            print(f"❌ Error creating commit: {e}")
+            print(f"ERROR: Error creating commit: {e}")
             return False
     
     def run(self):
         """Main execution flow."""
-        print("🚀 Simple Git Commit Generator")
+        print("AI-Powered Git Commit Generator")
         print("=" * 50)
         
         # Step 1: Check git repository
-        print("🔍 Checking git repository...")
+        print("Checking git repository...")
         if not self.check_git_repo():
             return
         
         # Step 2: Check Ollama connection
-        print("🔗 Checking Ollama connection...")
+        print("Checking Ollama connection...")
         if not self.check_ollama_connection():
             return
         
         # Step 3: Get git changes
-        print("📊 Analyzing git changes...")
+        print("Analyzing git changes...")
         git_changes = self.get_git_changes()
         if not git_changes:
             return
         
-        print("✅ Found staged changes:")
+        print("Found staged changes:")
         print(git_changes)
         
         # Step 4: Get LLM suggestions

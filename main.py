@@ -14,7 +14,7 @@ try:
     from ui import UserInterface
     from utils import validate_commit_message
 except ImportError as e:
-    print(f"❌ Import error: {e}")
+    print(f"ERROR: Import error: {e}")
     print("Please install requirements: pip install -r requirements.txt")
     sys.exit(1)
 

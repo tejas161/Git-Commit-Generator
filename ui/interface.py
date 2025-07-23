@@ -21,42 +21,42 @@ class UserInterface:
     
     def show_header(self):
         """Display application header."""
-        print("🚀 AI-Powered Git Commit Generator")
+        print("AI-Powered Git Commit Generator")
         print("=" * 50)
     
     def show_step(self, step: int, total: int, message: str):
         """Display step progress."""
         progress = f"[{step}/{total}]"
-        print(f"📍 {progress} {message}")
+        print(f"{progress} {message}")
     
     def show_success(self, message: str):
         """Display success message."""
-        print(f"✅ {message}")
+        print(f"SUCCESS: {message}")
     
     def show_error(self, message: str):
         """Display error message."""
-        print(f"❌ {message}")
+        print(f"ERROR: {message}")
     
     def show_warning(self, message: str):
         """Display warning message."""
-        print(f"⚠️  {message}")
+        print(f"WARNING: {message}")
     
     def show_info(self, message: str):
         """Display info message."""
-        print(f"ℹ️  {message}")
+        print(f"INFO: {message}")
     
     def show_debug(self, message: str):
         """Display debug message if enabled."""
         if self.debug_enabled:
-            print(f"🔍 DEBUG: {message}")
+            print(f"DEBUG: {message}")
     
     def show_git_changes(self, changes_data: Dict):
         """Display git changes information."""
-        print("\n📊 Found staged changes:")
+        print("\nFound staged changes:")
         print("-" * 30)
         
         for file_info in changes_data['files']:
-            status_emoji = self._get_status_emoji(file_info['status'])
+            status_emoji = self._get_status_indicator(file_info['status'])
             print(f"{status_emoji} {file_info['path']} ({file_info['status']})")
         
         print(f"\nTotal files: {changes_data['total_files']}")
@@ -76,7 +76,7 @@ class UserInterface:
     
     def show_generating_message(self):
         """Display message while generating suggestions."""
-        print("🤖 Generating commit message suggestions...")
+        print("Generating commit message suggestions...")
     
     def display_suggestions(self, suggestions: List[str]) -> Optional[str]:
         """
@@ -93,7 +93,7 @@ class UserInterface:
             return None
         
         print("\n" + "=" * 60)
-        print("💡 Generated Commit Message Suggestions:")
+        print("Generated Commit Message Suggestions:")
         print("=" * 60)
         
         for i, suggestion in enumerate(suggestions, 1):
@@ -114,11 +114,11 @@ class UserInterface:
         Returns:
             True if user confirms, False otherwise
         """
-        print(f"\n📝 Ready to commit with message:")
+        print(f"\nReady to commit with message:")
         print(f"'{message}'")
         
         if self.config and self.config.auto_confirm:
-            print("🔄 Auto-confirm enabled")
+            print("Auto-confirm enabled")
             return True
         
         response = input("\nProceed with commit? (y/N): ").strip().lower()
@@ -127,17 +127,17 @@ class UserInterface:
     def show_commit_result(self, commit_info: Dict):
         """Display commit creation result."""
         self.show_success("Commit created successfully!")
-        print(f"📋 {commit_info['hash']} - {commit_info['message']}")
+        print(f"{commit_info['hash']} - {commit_info['message']}")
         if self.debug_enabled:
-            print(f"🔍 Author: {commit_info['author']}")
-            print(f"🔍 Timestamp: {commit_info['timestamp']}")
+            print(f"Author: {commit_info['author']}")
+            print(f"Timestamp: {commit_info['timestamp']}")
     
     def show_recent_commits(self, commits: List[Dict]):
         """Display recent commits for context."""
         if not commits:
             return
         
-        print("\n📈 Recent commits (for context):")
+        print("\nRecent commits (for context):")
         print("-" * 40)
         
         for commit in commits[:3]:  # Show only last 3
@@ -166,7 +166,7 @@ class UserInterface:
     
     def handle_keyboard_interrupt(self):
         """Handle Ctrl+C gracefully."""
-        print("\n🚫 Operation cancelled by user")
+        print("\nOperation cancelled by user")
         sys.exit(0)
     
     def _get_user_choice(self, max_choice: int) -> Optional[str]:
@@ -193,17 +193,17 @@ class UserInterface:
             except KeyboardInterrupt:
                 self.handle_keyboard_interrupt()
             except EOFError:
-                print("\n🚫 Operation cancelled")
+                print("\nOperation cancelled")
                 return None
     
-    def _get_status_emoji(self, status: str) -> str:
-        """Get emoji for file status."""
-        emoji_map = {
-            'Added': '➕',
-            'Modified': '📝', 
-            'Deleted': '🗑️',
-            'Renamed': '📛',
-            'Copied': '📋',
-            'Type changed': '🔄'
+    def _get_status_indicator(self, status: str) -> str:
+        """Get text indicator for file status."""
+        indicator_map = {
+            'Added': '[+]',
+            'Modified': '[M]', 
+            'Deleted': '[D]',
+            'Renamed': '[R]',
+            'Copied': '[C]',
+            'Type changed': '[T]'
         }
-        return emoji_map.get(status, '📄') 
+        return indicator_map.get(status, '[?]') 

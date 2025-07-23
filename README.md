@@ -1,4 +1,4 @@
-# 🚀 AI-Powered Git Commit Generator v2.0
+# AI-Powered Git Commit Generator v2.0
 
 <!-- Updated to v2.0 with improved focused prompting -->
 <!-- Now features intelligent, context-aware commit message generation -->
@@ -25,18 +25,18 @@ commit_ai/
     └── helpers.py          # Helper functions
 ```
 
-## ✨ Features
+## Key Features
 
-- 🔧 **Modular Architecture** - Clean separation of concerns
-- 🤖 **AI-Powered** - Uses Ollama llama3.2 for intelligent suggestions
-- 📝 **Conventional Commits** - Follows standard format (feat, fix, docs, etc.)
-- 🎯 **5 Smart Suggestions** - Multiple options with validation
-- ⚙️ **Configurable** - Environment variables for customization
-- 🌐 **Portable** - Works in any git repository
-- 🔍 **Robust Error Handling** - Graceful failure and helpful messages
-- 📊 **Rich UI** - Emojis, progress indicators, and clear formatting
+- **Modular Architecture** - Clean separation of concerns
+- **AI-Powered** - Uses Ollama llama3.2 for intelligent suggestions  
+- **Conventional Commits** - Follows standard format (feat, fix, docs, etc.)
+- **Intelligent Analysis** - Understands your code changes contextually
+- **Configurable** - Environment variables for customization
+- **Professional UI** - Clean, readable interface with progress indicators
+- **Robust Error Handling** - Graceful failure and helpful messages
+- **Rich Display** - Clear formatting and status indicators
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -80,7 +80,7 @@ python /path/to/commit_ai/main.py
 # Follow the interactive prompts!
 ```
 
-## 🔧 Configuration
+## Configuration
 
 Configure the application using environment variables:
 
@@ -156,29 +156,29 @@ formatted = format_commit_message("feat", "auth", "add login")
 ## 🎯 Example Session
 
 ```bash
-🚀 AI-Powered Git Commit Generator v2.0
+AI-Powered Git Commit Generator v2.0
 ==================================================
-📍 [1/5] Validating git repository...
-✅ Git repository validated
-📍 [2/5] Checking AI model availability...
-✅ Ollama connected and model ready
-📍 [3/5] Analyzing staged changes...
+[1/5] Validating git repository...
+SUCCESS: Git repository validated
+[2/5] Checking AI model availability...
+SUCCESS: Ollama connected and model ready
+[3/5] Analyzing staged changes...
 
-📊 Found staged changes:
+Found staged changes:
 ------------------------------
-📝 src/auth.py (Modified)
-➕ tests/test_auth.py (Added)
-📝 README.md (Modified)
+[M] src/auth.py (Modified)
+[+] tests/test_auth.py (Added)
+[M] README.md (Modified)
 
 Total files: 3
 ------------------------------
-📍 [4/5] Generating AI commit suggestions...
-🤖 Generating commit message suggestions...
-✅ Generated 5 commit suggestions
-📍 [5/5] Processing user selection...
+[4/5] Generating AI commit suggestions...
+Generating commit message suggestions...
+SUCCESS: Generated 5 commit suggestions
+[5/5] Processing user selection...
 
 ============================================================
-💡 Generated Commit Message Suggestions:
+Generated Commit Message Suggestions:
 ============================================================
 1. feat(auth): add user authentication system
 2. feat: implement login functionality with tests
@@ -190,15 +190,15 @@ Total files: 3
 
 Choose a commit message (0-5): 1
 
-📝 Ready to commit with message:
+Ready to commit with message:
 'feat(auth): add user authentication system'
 
 Proceed with commit? (y/N): y
-✅ Commit created successfully!
-📋 a1b2c3d4 - feat(auth): add user authentication system
+SUCCESS: Commit created successfully!
+a1b2c3d4 - feat(auth): add user authentication system
 ```
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -208,7 +208,7 @@ Proceed with commit? (y/N): y
 | "No staged changes" | Use `git add <files>` to stage changes |
 | "Import errors" | Install requirements: `pip install -r requirements.txt` |
 
-## 🛠️ Development
+## Development
 
 ### Adding New Features
 
@@ -225,7 +225,7 @@ python -c "from core import GitOperations; print(GitOperations().is_git_reposito
 python -c "from core import LLMClient; print(LLMClient().is_available())"
 ```
 
-## 📋 Conventional Commit Types
+## Conventional Commit Types
 
 | Type | Description |
 |------|-------------|
@@ -250,4 +250,4 @@ python -c "from core import LLMClient; print(LLMClient().is_available())"
 
 ---
 
-**Clean, modular, and ready to use! 🚀** 
+**Clean, modular, and ready to use!** 
