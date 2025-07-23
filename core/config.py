@@ -9,7 +9,7 @@ from typing import Optional
 
 
 class Config:
-    """Configuration settings for the commit generator."""
+    """Configuration settings for the commit generator from AI Model."""
     
     def __init__(self):
         """Initialize configuration with defaults and environment overrides."""
