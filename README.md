@@ -154,7 +154,7 @@ formatted = format_commit_message("feat", "auth", "add login")
 ## 🎯 Example Session
 
 ```bash
-🚀 AI-Powered Git Commit Generator
+🚀 AI-Powered Git Commit Generator v2.0
 ==================================================
 📍 [1/5] Validating git repository...
 ✅ Git repository validated
