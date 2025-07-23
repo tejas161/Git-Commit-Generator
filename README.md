@@ -1,4 +1,4 @@
-# 🚀 AI-Powered Git Commit Generator
+# 🚀 AI-Powered Git pre-Commit Generator
 
 A modular, well-structured Python application that uses Ollama's llama3.2 model to generate conventional git commit messages based on your staged changes.
 

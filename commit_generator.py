@@ -123,7 +123,7 @@ class SimpleCommitGenerator:
     
     def get_commit_suggestions(self, git_changes):
         """Get 5 commit message suggestions from LLM."""
-        prompt = f"""Based on the following git changes, generate exactly 5 different conventional commit messages.
+        prompt = f"""Based on the following git changes, generate exactly 5 valid and senseable conventional commit messages.
 
 {git_changes}
 
@@ -131,15 +131,9 @@ Rules:
 1. Use conventional commit format: type(scope)?: description
 2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 3. Keep descriptions under 50 characters
-4. Make each suggestion unique and meaningful
+4. Make each suggestion meaningful and it can be unique/not unique based on the context of the changes
 5. Respond ONLY with 5 commit messages, one per line, no extra text
-
-Example format:
-feat(auth): add user login functionality
-fix(api): resolve timeout issue in requests
-docs: update installation instructions
-refactor(utils): simplify error handling
-test: add unit tests for user service"""
+"""
 
         try:
             print("🤖 Asking LLM for commit suggestions...")
