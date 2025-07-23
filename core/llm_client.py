@@ -106,21 +106,32 @@ class LLMClient:
     
     def _create_prompt(self, git_summary: str) -> str:
         """Create focused prompt for commit message generation."""
-        prompt = f"""Look at these git changes and describe what was actually done. Generate 3-5 commit messages that accurately describe the same changes.
+        prompt = f"""IMPORTANT: Look at these changes and determine the ONE correct commit type, then generate 3-4 variations of THE SAME TYPE.
 
 {git_summary}
 
-Instructions:
-1. Identify the MAIN thing that was changed or accomplished
-2. Use conventional commit format: type(scope): description  
-3. All suggestions should describe the SAME changes - don't create artificial variety
-4. Choose the commit type that best matches what actually happened: feat, fix, docs, style, refactor, test, chore, perf, ci, build
-5. If it's all documentation changes, make all suggestions about documentation
-6. If it's all bug fixes, make all suggestions about bug fixes
-7. Keep descriptions under 50 characters and specific to what changed
-8. Respond ONLY with the commit messages, one per line, no extra text
+CRITICAL RULES:
+1. If ONLY documentation files changed (README, .md files, comments) → ALL suggestions must be 'docs:'
+2. If ONLY code functionality was added → ALL suggestions must be 'feat:'  
+3. If ONLY bugs were fixed → ALL suggestions must be 'fix:'
+4. If ONLY code was cleaned up → ALL suggestions must be 'refactor:'
+5. If ONLY styling/formatting → ALL suggestions must be 'style:'
 
-Focus on accuracy over variety. Multiple similar suggestions are perfectly fine and preferred if they accurately describe the same changes."""
+DO NOT MIX TYPES! All suggestions must use the SAME commit type.
+
+Format: type(scope): description
+Keep descriptions under 50 characters.
+Only vary the descriptions, NEVER the commit type.
+
+WRONG example (mixed types):
+feat: add new feature
+fix: improve performance  
+docs: update readme
+
+CORRECT example (consistent type):
+docs: update README with version info
+docs: add version number to documentation  
+docs: enhance README header section"""
 
         return prompt
     
